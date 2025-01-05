@@ -1,0 +1,4 @@
+node_modules
+__jac_gen__
+mydatabase
+.jac_mypy_cache
