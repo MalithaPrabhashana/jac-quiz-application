@@ -46,6 +46,7 @@ const Login = () => {
                     localStorage.setItem('userId', response_walker_login.reports[0]);
 
                     console.log('user_id', response_walker_login.reports[0]);
+                    window.location.href = '/dashboard';
         
                 } catch (error: any) {
                     console.error('Login failed:', error);
@@ -63,11 +64,11 @@ const Login = () => {
     return (
         <Container
             style={{
-                height: '90vh', // Full viewport height
-                display: 'flex', // Enable flexbox
-                justifyContent: 'center', // Center horizontally
-                alignItems: 'center', // Center vertically
-                flexDirection: 'column', // Stack items vertically
+                height: '90vh',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexDirection: 'column',
             }}
         >
             <Container style={{ textAlign: 'center', marginBottom: 20 }}>
