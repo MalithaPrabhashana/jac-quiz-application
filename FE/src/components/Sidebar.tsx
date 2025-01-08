@@ -22,8 +22,12 @@ interface NavbarLinkProps {
   onClick?: () => void;
 }
 
+interface SidebarProps {
+  role: string; // Role can be 'teacher' or 'student'
+}
+
 function NavbarLink({ icon: Icon, label, active, onClick, to }: NavbarLinkProps) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleClick = () => {
     if (onClick) onClick();
@@ -39,25 +43,28 @@ function NavbarLink({ icon: Icon, label, active, onClick, to }: NavbarLinkProps)
   );
 }
 
-const mockdata = [
-  { icon: IconHome2, label: 'Home', to: '/dashboard' },
-  { icon: IconGauge, label: 'Dashboard', to: '/dashboard' },
-  { icon: IconDeviceDesktopAnalytics, label: 'Analytics', to: '/analytics' },
-  { icon: IconCalendarStats, label: 'Releases', to: '/releases' },
-  { icon: IconUser, label: 'Account', to: '/account' },
-  { icon: IconFingerprint, label: 'Security', to: '/security' },
-  { icon: IconSettings, label: 'Settings', to: '/settings' },
-];
+export default function Sidebar({ role }: SidebarProps) {
+  const [active, setActive] = useState(0);
 
-export default function Sidebar() {
-  const [active, setActive] = useState(2);
+  // Define links for each role
+  const teacherLinks = [
+    // { icon: IconHome2, label: 'Home', to: '/dashboard' },
+    { icon: IconGauge, label: 'Dashboard', to: '/teacher/dashboard' },
+    { icon: IconDeviceDesktopAnalytics, label: 'Create Quiz', to: '/teacher/create-quiz' },
+  ];
 
-  const links = mockdata.map((link, index) => (
+  const studentLinks = [
+    // { icon: IconHome2, label: 'Home', to: '/dashboard' },
+    { icon: IconGauge, label: 'Dashboard', to: '/student/dashboard' },
+    { icon: IconCalendarStats, label: 'View Quizzes', to: '/student/quizzes' },
+  ];
+
+  const links = (role === 'teacher' ? teacherLinks : studentLinks).map((link, index) => (
     <NavbarLink
       {...link}
       key={link.label}
       active={index === active}
-      onClick={() => setActive(index)} // Change active tab on click
+      onClick={() => setActive(index)}
     />
   ));
 

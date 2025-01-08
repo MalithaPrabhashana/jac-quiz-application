@@ -1,6 +1,9 @@
 import { Container, Text, Button, Paper, Group } from '@mantine/core';
+import { useNavigate } from 'react-router';
 
 const TeacherDashboard = () => {
+  const navigate = useNavigate(); // Navigation hook
+
   return (
     <Container style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 40 }}>
       {/* Welcome section */}
@@ -22,7 +25,7 @@ const TeacherDashboard = () => {
           View, edit, or remove students from your courses.
         </Text>
         <Group style={{ justifyContent: 'center' }}>
-          <Button variant="outline">View Students</Button>
+          <Button variant="outline" onClick={() => navigate('/students')}>View Students</Button>
         </Group>
       </Paper>
 
@@ -34,7 +37,7 @@ const TeacherDashboard = () => {
           View quizzes you have created and track their results.
         </Text>
         <Group style={{ justifyContent: 'center' }}>
-          <Button variant="outline">View Quizzes</Button>
+          <Button variant="outline" onClick={() => navigate('/quizzes')}>View Quizzes</Button>
         </Group>
       </Paper>
 
@@ -46,7 +49,7 @@ const TeacherDashboard = () => {
           Create new quizzes for your students to take.
         </Text>
         <Group style={{ justifyContent: 'center' }}>
-          <Button variant="outline">Create Quiz</Button>
+          <Button variant="outline" onClick={() => navigate('/teacher/create-quiz')}>Create Quiz</Button>
         </Group>
       </Paper>
 
@@ -58,7 +61,7 @@ const TeacherDashboard = () => {
           Check the results of your students and analyze performance.
         </Text>
         <Group style={{ justifyContent: 'center' }}>
-          <Button variant="outline">View Results</Button>
+          <Button variant="outline" onClick={() => navigate('/results')}>View Results</Button>
         </Group>
       </Paper>
     </Container>

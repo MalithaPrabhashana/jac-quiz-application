@@ -4,6 +4,8 @@ import '@mantine/core/styles.css';
 import Signup from './components/Auth/Signup';
 import { BrowserRouter, Routes, Route } from "react-router";
 import Dashboard from './pages/Dashboard';
+import CreateQuiz from './pages/teacher/CreateQuiz';
+import TeacherDashboard from './pages/teacher/TeachersDashboard';
 // import './App.css';
 
 const App = () => {
@@ -14,7 +16,11 @@ const App = () => {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+
+          <Route path="/teacher" element={<Dashboard />}>
+            <Route path="dashboard" element={<TeacherDashboard />} />
+            <Route path="create-quiz" element={<CreateQuiz />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </MantineProvider>
