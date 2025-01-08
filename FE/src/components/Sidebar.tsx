@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   IconCalendarStats,
   IconDeviceDesktopAnalytics,
@@ -11,7 +11,7 @@ import {
   IconUser,
 } from '@tabler/icons-react';
 import { Stack, Tooltip, UnstyledButton } from '@mantine/core';
-import { useNavigate } from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
 import classes from '../../styles/NavbarMinimal.module.css';
 
 interface NavbarLinkProps {
@@ -28,7 +28,6 @@ interface SidebarProps {
 
 function NavbarLink({ icon: Icon, label, active, onClick, to }: NavbarLinkProps) {
   const navigate = useNavigate();
-
   const handleClick = () => {
     if (onClick) onClick();
     navigate(to);
@@ -44,35 +43,41 @@ function NavbarLink({ icon: Icon, label, active, onClick, to }: NavbarLinkProps)
 }
 
 export default function Sidebar({ role }: SidebarProps) {
+  const location = useLocation();
   const [active, setActive] = useState(0);
 
   // Define links for each role
   const teacherLinks = [
-    // { icon: IconHome2, label: 'Home', to: '/dashboard' },
     { icon: IconGauge, label: 'Dashboard', to: '/teacher/dashboard' },
     { icon: IconDeviceDesktopAnalytics, label: 'Create Quiz', to: '/teacher/create-quiz' },
+    { icon: IconUser, label: 'All Quizzes', to: '/teacher/view-all-quizzes' },
   ];
 
   const studentLinks = [
-    // { icon: IconHome2, label: 'Home', to: '/dashboard' },
     { icon: IconGauge, label: 'Dashboard', to: '/student/dashboard' },
     { icon: IconCalendarStats, label: 'View Quizzes', to: '/student/quizzes' },
   ];
 
-  const links = (role === 'teacher' ? teacherLinks : studentLinks).map((link, index) => (
-    <NavbarLink
-      {...link}
-      key={link.label}
-      active={index === active}
-      onClick={() => setActive(index)}
-    />
-  ));
+  // Determine links based on the role
+  const links = role === 'teacher' ? teacherLinks : studentLinks;
+
+  // Update active link based on current path
+  useEffect(() => {
+    const activeLink = links.findIndex((link) => link.to === location.pathname);
+    setActive(activeLink >= 0 ? activeLink : 0);  // Default to first link if no match
+  }, [location, links]);
 
   return (
     <nav className={classes.navbar}>
       <div className={classes.navbarMain}>
         <Stack justify="center" gap={0}>
-          {links}
+          {links.map((link, index) => (
+            <NavbarLink
+              {...link}
+              key={link.label}
+              active={index === active}
+            />
+          ))}
         </Stack>
       </div>
 

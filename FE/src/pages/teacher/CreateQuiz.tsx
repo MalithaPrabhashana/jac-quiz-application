@@ -56,7 +56,7 @@ const CreateQuiz = () => {
   return (
     <Container style={{ marginTop: 40 }}>
       {/* Page Title */}
-      <h1>Create Quiz - {title || '{}'}</h1>
+      <h1>Create Quiz - {title || ''} Quiz </h1>
 
       {/* Quiz Details */}
       <Grid>
