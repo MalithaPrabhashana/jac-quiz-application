@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react';
 import {
   IconCalendarStats,
-  IconDeviceDesktopAnalytics,
-  IconFingerprint,
+  IconClipboardList,
   IconGauge,
   IconHome2,
   IconLogout,
-  IconSettings,
+  IconFileText,
   IconSwitchHorizontal,
-  IconUser,
+  IconUsers,
 } from '@tabler/icons-react';
 import { Stack, Tooltip, UnstyledButton } from '@mantine/core';
 import { useNavigate, useLocation } from 'react-router';
@@ -49,9 +48,9 @@ export default function Sidebar({ role }: SidebarProps) {
   // Define links for each role
   const teacherLinks = [
     { icon: IconGauge, label: 'Dashboard', to: '/teacher/dashboard' },
-    { icon: IconDeviceDesktopAnalytics, label: 'Create Quiz', to: '/teacher/create-quiz' },
-    { icon: IconSettings, label: 'All Quizzes', to: '/teacher/view-all-quizzes' },
-    { icon: IconUser, label: 'All Students', to: '/teacher/all-students' },
+    { icon: IconClipboardList, label: 'All Quizzes', to: '/teacher/view-all-quizzes' },
+    { icon: IconFileText, label: 'Create Quiz', to: '/teacher/create-quiz' },
+    { icon: IconUsers, label: 'All Students', to: '/teacher/all-students' },
   ];
 
   const studentLinks = [

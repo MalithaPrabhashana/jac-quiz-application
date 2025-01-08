@@ -1,4 +1,5 @@
-import { Table, Container, Text, Paper } from '@mantine/core';
+import { Table, Container, Text, Paper, ActionIcon } from '@mantine/core';
+import { IconTrash } from '@tabler/icons-react'; // Import the Trash icon
 
 const ViewAllStudents = () => {
     // Example student data (replace with real data)
@@ -8,6 +9,14 @@ const ViewAllStudents = () => {
         // Add more students as necessary
     ];
 
+    // Function to handle the deletion of a student
+    const handleDelete = (studentId: any) => {
+        // You can replace this logic with an API call or state update to remove the student
+        console.log(`Deleting student with ID: ${studentId}`);
+        // For demonstration, filtering out the student
+        const updatedStudents = students.filter((student) => student.id !== studentId);
+        console.log(updatedStudents); // This will show the list of students after deletion
+    };
 
     const rows = students.map((student) => (
         <Table.Tr key={student.id}>
@@ -16,6 +25,11 @@ const ViewAllStudents = () => {
             <Table.Td>{student.email}</Table.Td>
             <Table.Td>{student.age}</Table.Td>
             <Table.Td>{student.enrolled}</Table.Td>
+            <Table.Td>
+                <ActionIcon color="red" onClick={() => handleDelete(student.id)}>
+                    <IconTrash />
+                </ActionIcon>
+            </Table.Td>
         </Table.Tr>
     ));
 
@@ -26,7 +40,7 @@ const ViewAllStudents = () => {
             {/* Wrapping the table with a Paper component to add border and shadow */}
             <Paper shadow="xs" withBorder style={{ padding: '20px' }}>
                 <Table.ScrollContainer minWidth={500} type="native">
-                    <Table striped highlightOnHover withTableBorder withColumnBorders verticalSpacing="sm">
+                    <Table striped highlightOnHover withTableBorder withColumnBorders verticalSpacing="xs">
                         <Table.Thead>
                             <Table.Tr>
                                 <Table.Th>Student ID</Table.Th>
@@ -34,6 +48,7 @@ const ViewAllStudents = () => {
                                 <Table.Th>Email</Table.Th>
                                 <Table.Th>Age</Table.Th>
                                 <Table.Th>Enrolled Courses</Table.Th>
+                                <Table.Th>Actions</Table.Th> {/* Added Action column */}
                             </Table.Tr>
                         </Table.Thead>
                         <Table.Tbody>{rows}</Table.Tbody>

@@ -59,82 +59,85 @@ const CreateQuiz = () => {
       <h1>Create Quiz - {title || ''} Quiz </h1>
 
       {/* Quiz Details */}
-      <Grid>
-        <Grid.Col span={{ base: 12, md: 6 }}>
-          <TextInput
-            label="Quiz Title"
-            placeholder="Enter quiz title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            style={{ marginBottom: 20 }}
-          />
-        </Grid.Col>
-        <Grid.Col span={{ base: 12, md: 6 }}>
-          <Textarea
-            label="Quiz Description"
-            placeholder="Enter quiz description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            style={{ marginBottom: 20 }}
-          />
-        </Grid.Col>
-      </Grid>
-      
-      <Grid>
-        <Grid.Col span={{ base: 12, md: 6 }}>
-          <Select
-            label="Quiz Category"
-            placeholder="Select category"
-            data={['Math', 'Science', 'History', 'Programming']}
-            value={category}
-            onChange={(value) => setCategory(value || '')}
-            style={{ marginBottom: 20 }}
-          />
-        </Grid.Col>
-        <Grid.Col span={{ base: 12, md: 6 }}>
-          <NumberInput
-            label="Time Duration (in minutes)"
-            placeholder="Enter duration"
-            value={duration}
-            onChange={(value: any) => setDuration(value || 0)}
-            min={1}
-            style={{ marginBottom: 20 }}
-          />
-        </Grid.Col>
-      </Grid>
 
-      <Divider my="sm" label="Questions" />
+      <Paper withBorder shadow="xs" p="lg">
+        <Grid>
+          <Grid.Col span={{ base: 12, md: 6 }}>
+            <TextInput
+              label="Quiz Title"
+              placeholder="Enter quiz title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              style={{ marginBottom: 20 }}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6 }}>
+            <Textarea
+              label="Quiz Description"
+              placeholder="Enter quiz description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              style={{ marginBottom: 20 }}
+            />
+          </Grid.Col>
+        </Grid>
 
-      {/* Questions Section */}
-      {questions.map((q, index) => (
-        <Paper key={index} withBorder shadow="xs" p="md" style={{ marginBottom: 20 }}>
-          <TextInput
-            label={`Question ${index + 1}`}
-            placeholder="Enter question"
-            value={q.question}
-            onChange={(e) => handleQuestionChange(index, 'question', e.target.value)}
-            style={{ marginBottom: 10 }}
-          />
-          <TextInput
-            label="Answer"
-            placeholder="Enter answer"
-            value={q.answer}
-            onChange={(e) => handleQuestionChange(index, 'answer', e.target.value)}
-            style={{ marginBottom: 10 }}
-          />
-        </Paper>
-      ))}
+        <Grid>
+          <Grid.Col span={{ base: 12, md: 6 }}>
+            <Select
+              label="Quiz Category"
+              placeholder="Select category"
+              data={['Math', 'Science', 'History', 'Programming']}
+              value={category}
+              onChange={(value) => setCategory(value || '')}
+              style={{ marginBottom: 20 }}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6 }}>
+            <NumberInput
+              label="Time Duration (in minutes)"
+              placeholder="Enter duration"
+              value={duration}
+              onChange={(value: any) => setDuration(value || 0)}
+              min={1}
+              style={{ marginBottom: 20 }}
+            />
+          </Grid.Col>
+        </Grid>
 
-      <Group style={{ marginBottom: 20 }}>
-        <Button onClick={handleAddQuestion}>+ Add Question</Button>
-      </Group>
+        <Divider my="sm" label="Questions" />
 
-      {/* Save Quiz Button */}
-      <Group style={{ justifyContent: 'flex-end' }}>
-        <Button onClick={handleSaveQuiz} color="blue">
-          Save Quiz
-        </Button>
-      </Group>
+        {/* Questions Section */}
+        {questions.map((q, index) => (
+          <Paper key={index} withBorder shadow="xs" p="md" style={{ marginBottom: 20 }}>
+            <TextInput
+              label={`Question ${index + 1}`}
+              placeholder="Enter question"
+              value={q.question}
+              onChange={(e) => handleQuestionChange(index, 'question', e.target.value)}
+              style={{ marginBottom: 10 }}
+            />
+            <TextInput
+              label="Answer"
+              placeholder="Enter answer"
+              value={q.answer}
+              onChange={(e) => handleQuestionChange(index, 'answer', e.target.value)}
+              style={{ marginBottom: 10 }}
+            />
+          </Paper>
+        ))}
+
+        <Group style={{ marginBottom: 20 }}>
+          <Button onClick={handleAddQuestion}>+ Add Question</Button>
+        </Group>
+
+        {/* Save Quiz Button */}
+        <Group style={{ justifyContent: 'flex-end' }}>
+          <Button onClick={handleSaveQuiz} color="blue">
+            Save Quiz
+          </Button>
+        </Group>
+      </Paper>
     </Container>
   );
 };

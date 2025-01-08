@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { IconEdit } from '@tabler/icons-react';
 import { Container, Paper, Text, Button, TextInput, Accordion, Group, Modal, ActionIcon, Grid } from '@mantine/core';
 import { Link } from 'react-router';
 
@@ -89,21 +90,58 @@ const ViewAllQuizzes = () => {
                 <Accordion>
                     {quizzes.map((quiz) => (
                         <Accordion.Item value={quiz.id} key={quiz.id}>
-                            <Accordion.Control>{quiz.title}</Accordion.Control>
+                            <Accordion.Control style={{ fontWeight: 'bold', fontSize: '1.2rem', padding: '0px 15px', backgroundColor: '#f7f7f7', borderRadius: '4px' }}>
+                                <strong>{quiz.title}</strong>
+                            </Accordion.Control>
+
                             <Accordion.Panel>
-                                {quiz.questions.map((q) => (
-                                    <Group key={q.id} style={{ marginBottom: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                        <div>
-                                            <Text style={{ fontWeight: 500 }}>{q.question}</Text>
-                                            <Text style={{ fontSize: '0.875rem' }}>{q.answer}</Text>
+                                {quiz.questions.map((q, index) => (
+                                    <Group
+                                        key={q.id}
+                                        style={{
+                                            marginBottom: 15,
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center',
+                                        }}
+                                    >
+                                        <div style={{ width: '85%' }}>
+                                            {/* Question Number and Styling */}
+                                            <Text
+                                                style={{
+                                                    fontWeight: 600,
+                                                    fontSize: '1rem',
+                                                    color: '#333',
+                                                    marginBottom: 5, 
+                                                }}
+                                            >
+                                                {index + 1}. {q.question} {/* Numbering each question */}
+                                            </Text>
+
+                                            {/* Answer Styling */}
+                                            <Text
+                                                style={{
+                                                    fontSize: '0.875rem',
+                                                    color: '#555',
+                                                    backgroundColor: '#f7f7f7',
+                                                    padding: '5px 10px',
+                                                    borderRadius: '4px',
+                                                }}
+                                            >
+                                                {q.answer}
+                                            </Text>
                                         </div>
+
                                         {/* Right-aligned Edit Icon */}
-                                        <ActionIcon color="blue" onClick={() => openEditModal(quiz.id, q.id, q.question, q.answer)}>
-                                            ✏️
+                                        <ActionIcon
+                                            color="blue"
+                                            onClick={() => openEditModal(quiz.id, q.id, q.question, q.answer)}
+                                        >
+                                            <IconEdit size={16} />
                                         </ActionIcon>
                                     </Group>
-
                                 ))}
+
                             </Accordion.Panel>
                         </Accordion.Item>
                     ))}
