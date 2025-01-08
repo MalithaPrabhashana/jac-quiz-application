@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Container, Paper, Text, Button, TextInput, Accordion, Group, Modal, ActionIcon } from '@mantine/core';
+import { Container, Paper, Text, Button, TextInput, Accordion, Group, Modal, ActionIcon, Grid } from '@mantine/core';
+import { Link } from 'react-router';
 
 interface Quiz {
     id: string;
@@ -63,13 +64,26 @@ const ViewAllQuizzes = () => {
                 return updatedQuizzes;
             });
         }
-        setOpenedModal(false); // Close the modal after saving
+        setOpenedModal(false);
     };
 
     return (
         <Container style={{ marginTop: 40 }}>
+
+            <Grid pb={8}>
+                <Grid.Col span={6}>
+                    <Text style={{ fontSize: '2rem', fontWeight: 'bold' }}>All Quizzes</Text>
+                </Grid.Col>
+
+                <Grid.Col span={6} style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+                    <Button component={Link} to="/teacher/create-quiz" color="blue" style={{ marginBottom: 20 }}>
+                        Create Quiz
+                    </Button>
+                </Grid.Col>
+            </Grid>
+
             {/* Display all quizzes in one accordion */}
-            <h1>All Quizzes</h1>
+
 
             <Paper withBorder shadow="xs" p="lg">
                 <Accordion>

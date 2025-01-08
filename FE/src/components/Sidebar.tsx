@@ -50,7 +50,8 @@ export default function Sidebar({ role }: SidebarProps) {
   const teacherLinks = [
     { icon: IconGauge, label: 'Dashboard', to: '/teacher/dashboard' },
     { icon: IconDeviceDesktopAnalytics, label: 'Create Quiz', to: '/teacher/create-quiz' },
-    { icon: IconUser, label: 'All Quizzes', to: '/teacher/view-all-quizzes' },
+    { icon: IconSettings, label: 'All Quizzes', to: '/teacher/view-all-quizzes' },
+    { icon: IconUser, label: 'All Students', to: '/teacher/all-students' },
   ];
 
   const studentLinks = [

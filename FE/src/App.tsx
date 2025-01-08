@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard';
 import CreateQuiz from './pages/teacher/CreateQuiz';
 import TeacherDashboard from './pages/teacher/TeachersDashboard';
 import ViewAllQuizzes from './pages/teacher/ViewAllQuestions';
+import ViewAllStudents from './pages/teacher/ViewAllStudents';
 // import './App.css';
 
 const App = () => {
@@ -22,6 +23,7 @@ const App = () => {
             <Route path="dashboard" element={<TeacherDashboard />} />
             <Route path="create-quiz" element={<CreateQuiz />} />
             <Route path="view-all-quizzes" element={<ViewAllQuizzes />} />
+            <Route path="all-students" element={<ViewAllStudents />} />
           </Route>
         </Routes>
       </BrowserRouter>
