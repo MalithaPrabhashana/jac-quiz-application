@@ -21,7 +21,7 @@ const Signup = () => {
 
     const email = e.target[0].value;
     const password = e.target[1].value;
-    const role = e.target[3].value;
+    const role = e.target[3].value.toLowerCase();
 
     const signupData = {
       username: email,
@@ -32,9 +32,12 @@ const Signup = () => {
     console.log(signupData);
 
     try {
-      const response_signup_walker = await apiRequest<{ token: string; reports: { username: string; password: string }[] }>('walker/sign_up_user', {
+      const response_signup_walker = await apiRequest<{ status: number; reports: any[] }>('walker/sign_up_user', {
         method: 'POST',
-        body: signupData,
+        body: {
+          email: signupData.username,
+          role: signupData.role,
+        },
       });
 
       console.log('Sign up response:', response_signup_walker.reports[0].username);

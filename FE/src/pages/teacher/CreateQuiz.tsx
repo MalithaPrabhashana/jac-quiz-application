@@ -11,6 +11,7 @@ import {
   Paper,
   Grid,
 } from '@mantine/core';
+import { apiRequest } from '../../apiRequest';
 
 const CreateQuiz = () => {
   const [title, setTitle] = useState('');
@@ -34,18 +35,30 @@ const CreateQuiz = () => {
   };
 
   // Handle saving the quiz
-  const handleSaveQuiz = () => {
+  const handleSaveQuiz = async () => {
     const quizData = {
-      title,
-      description,
-      category,
-      duration,
-      questions,
+      user_id: localStorage.getItem('user_id'),
+      title: title,
+      description: description,
+      duration: duration,
+      questions: questions,
     };
 
+    console.log('Saving quiz:', quizData);
+
     // Add API call or state management logic here
-    console.log(quizData);
-    alert('Quiz Saved!');
+    try {
+      const response = await apiRequest("walker/create_quiz", {
+        method: "POST",
+        body: quizData,
+      });
+
+      console.log(response);
+
+    } catch (error: any) {
+      console.error("Error saving quiz:", error);
+      alert(error.message || "Something went wrong while saving the quiz.");
+    }
   };
 
   // Update the document title whenever the quiz title changes

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { IconEdit } from '@tabler/icons-react';
 import { Container, Paper, Text, Button, TextInput, Accordion, Group, Modal, ActionIcon, Grid } from '@mantine/core';
 import { Link } from 'react-router';
+import { apiRequest } from '../../apiRequest';
 
 interface Quiz {
     id: string;
@@ -12,6 +13,8 @@ interface Quiz {
 
 const ViewAllQuizzes = () => {
     const [quizzes, setQuizzes] = useState<Quiz[]>([]);
+    const [error, setError] = useState<string | null>(null);
+
     const [editedQuestion, setEditedQuestion] = useState<{
         quizId: string;
         questionId: string;
@@ -20,31 +23,47 @@ const ViewAllQuizzes = () => {
     } | null>(null);
     const [openedModal, setOpenedModal] = useState<boolean>(false);
 
-    // Fetch quizzes data (you can replace with an API call)
+
     useEffect(() => {
-        // Simulating an API call with some example quizzes
-        const fetchedQuizzes = [
-            {
-                id: '1',
-                title: 'Math Quiz 1',
-                description: 'Basic Math Quiz',
-                questions: [
-                    { id: 'q1', question: 'What is 2 + 2?', answer: '4' },
-                    { id: 'q2', question: 'What is 3 + 5?', answer: '8' },
-                ],
-            },
-            {
-                id: '2',
-                title: 'Science Quiz 1',
-                description: 'Basic Science Quiz',
-                questions: [
-                    { id: 'q3', question: 'What is H2O?', answer: 'Water' },
-                    { id: 'q4', question: 'What is the chemical symbol for oxygen?', answer: 'O2' },
-                ],
-            },
-        ];
-        setQuizzes(fetchedQuizzes);
+        // Fetch quizzes when the component mounts
+        const fetchQuizzes = async () => {
+            try {
+                const response = await apiRequest('walker/get_all_quizzes', {
+                    method: 'POST',
+                    body: {
+                        user_id: localStorage.getItem("user_id") || 'n:profile:678101d379ee63dfc05351c6',
+                    },
+                }) as { status: number; reports: any[] };
+    
+                // Parse the API response to extract quiz data
+                if (response.status === 200 && Array.isArray(response.reports)) {
+                    const quizzesData = response.reports[0].map((quiz: any) => ({
+                        id: quiz.id,
+                        title: quiz.context.title,
+                        description: quiz.context.description,
+                        duration: quiz.context.duration,
+                        questions: quiz.context.questions.map((q: any, index: number) => ({
+                            id: `${quiz.id}-q${index + 1}`,
+                            question: q.question,
+                            answer: q.answer,
+                        })),
+                    }));
+    
+                    // Update state with parsed quiz data
+                    setQuizzes(quizzesData);
+                } else {
+                    throw new Error('Invalid API response structure');
+                }
+            } catch (err: any) {
+                console.error('Failed to fetch quizzes:', err);
+                setError(err.message || 'Something went wrong while fetching quizzes.');
+            }
+        };
+    
+        fetchQuizzes();
     }, []);
+    
+    
 
     // Handle opening the modal to edit a question's question and answer
     const openEditModal = (quizId: string, questionId: string, currentQuestion: string, currentAnswer: string) => {
@@ -84,8 +103,6 @@ const ViewAllQuizzes = () => {
             </Grid>
 
             {/* Display all quizzes in one accordion */}
-
-
             <Paper withBorder shadow="xs" p="lg">
                 <Accordion>
                     {quizzes.map((quiz) => (
@@ -97,7 +114,7 @@ const ViewAllQuizzes = () => {
                             <Accordion.Panel>
                                 {quiz.questions.map((q, index) => (
                                     <Group
-                                        key={q.id}
+                                        key={`${quiz.id}-q${index}`}
                                         style={{
                                             marginBottom: 15,
                                             display: 'flex',
@@ -112,7 +129,7 @@ const ViewAllQuizzes = () => {
                                                     fontWeight: 600,
                                                     fontSize: '1rem',
                                                     color: '#333',
-                                                    marginBottom: 5, 
+                                                    marginBottom: 5,
                                                 }}
                                             >
                                                 {index + 1}. {q.question} {/* Numbering each question */}
