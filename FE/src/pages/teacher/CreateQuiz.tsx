@@ -17,9 +17,9 @@ const CreateQuiz = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
-  const [duration, setDuration] = useState(0); // Duration in minutes
+  const [duration, setDuration] = useState(0);
   const [questions, setQuestions] = useState([
-    { question: '', answer: '' }, // Initial question template
+    { question: '', answer: '' },
   ]);
 
   // Handle adding a new question template
@@ -48,12 +48,14 @@ const CreateQuiz = () => {
 
     // Add API call or state management logic here
     try {
-      const response = await apiRequest("walker/create_quiz", {
+      await apiRequest("walker/create_quiz", {
         method: "POST",
         body: quizData,
       });
 
-      console.log(response);
+      // Navigate to view-all-quizzes tab after saving the quiz
+      window.location.href = 'view-all-quizzes';
+
 
     } catch (error: any) {
       console.error("Error saving quiz:", error);
