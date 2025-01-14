@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Container, Loader, Text } from '@mantine/core';
 import Sidebar from '../components/Sidebar';
 import TeacherDashboard from './teacher/TeachersDashboard';
+import StudentDashboard from './student/StudentDashboard.tsx';
 
 const Dashboard = () => {
     const [role, setRole] = useState<string | null>(null);
@@ -13,6 +14,7 @@ const Dashboard = () => {
             try {
                 const userRole = localStorage.getItem('role');
                 setRole(userRole || 'teacher');
+                
             } catch (error) {
                 console.error('Error fetching role:', error);
             } finally {
@@ -92,7 +94,7 @@ const Dashboard = () => {
                     Welcome to your {role === 'teacher' ? 'Teacher' : 'Student'} Dashboard
                 </Text>
 
-                <TeacherDashboard />
+                {role === 'teacher' ? <TeacherDashboard /> : <StudentDashboard />}
             </div>
         </div>
     );
