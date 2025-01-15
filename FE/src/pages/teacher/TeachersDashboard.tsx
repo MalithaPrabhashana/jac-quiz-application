@@ -1,4 +1,4 @@
-import { Container, Text, Button, Paper, Group, Grid, Card, Badge, Title } from '@mantine/core';
+import { Container, Text, Button, Paper, Group, Grid, Card, Badge, Title, Center } from '@mantine/core';
 import { useNavigate } from 'react-router';
 import { IconClipboardList, IconFileText, IconUsers, IconArmchair } from '@tabler/icons-react';
 
@@ -33,7 +33,7 @@ const TeacherDashboard = () => {
               padding="lg"
               radius="md"
               withBorder
-              style={{ minHeight: 160 }} // Ensure all cards have the same height
+              style={{ minHeight: 160 }}
             >
               <Text size="lg">{stat.title}</Text>
               <Text size="xl" style={{ fontWeight: 700 }}>{stat.value}</Text>

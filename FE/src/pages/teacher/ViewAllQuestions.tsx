@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { IconEdit } from '@tabler/icons-react';
-import { Container, Paper, Text, Button, TextInput, Accordion, Group, Modal, ActionIcon, Grid } from '@mantine/core';
+import { Container, Paper, Text, Button, TextInput, Accordion, Group, Modal, ActionIcon, Grid, Loader, Center } from '@mantine/core';
 import { Link } from 'react-router';
 import { apiRequest } from '../../apiRequest';
 
@@ -14,6 +14,7 @@ interface Quiz {
 
 const ViewAllQuizzes = () => {
     const [quizzes, setQuizzes] = useState<Quiz[]>([]);
+    const [isquizLoading, setIsquizLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
     const [editedQuestion, setEditedQuestion] = useState<{
@@ -38,6 +39,8 @@ const ViewAllQuizzes = () => {
 
                 // Parse the API response to extract quiz data
                 if (response.status === 200 && Array.isArray(response.reports)) {
+                    setIsquizLoading(true);
+
                     const quizzesData = response.reports[0].map((quiz: any) => ({
                         id: quiz.id,
                         title: quiz.context.title,
@@ -115,7 +118,7 @@ const ViewAllQuizzes = () => {
             fetchQuestions(quizId);
         }
     };
-    
+
 
 
     // Handle opening the modal to edit a question's question and answer
@@ -179,63 +182,74 @@ const ViewAllQuizzes = () => {
 
             {/* Display all quizzes in one accordion */}
             <Paper withBorder shadow="xs" p="lg">
-                <Accordion onChange={handleAccordionChange}>
-                    {quizzes.map((quiz) => (
-                        <Accordion.Item value={quiz.id} key={quiz.id}>
-                            <Accordion.Control style={{ fontWeight: 'bold', fontSize: '1.2rem', padding: '0px 15px', backgroundColor: '#f7f7f7', borderRadius: '4px' }}>
-                                <strong>{quiz.title}</strong>
-                            </Accordion.Control>
+                {
+                    isquizLoading ? (
+                        <Accordion onChange={handleAccordionChange}>
+                            {quizzes.map((quiz) => (
+                                <Accordion.Item value={quiz.id} key={quiz.id}>
+                                    <Accordion.Control style={{ fontWeight: 'bold', fontSize: '1.2rem', padding: '0px 15px', backgroundColor: '#f7f7f7', borderRadius: '4px' }}>
+                                        <strong>{quiz.title}</strong>
+                                    </Accordion.Control>
 
-                            <Accordion.Panel>
-                                {quiz.loading ? (
-                                    <Text>Data Loading...</Text> // Show loading message
-                                ) : (
-                                    quiz.questions.map((q, index) => (
-                                        <Group
-                                            key={`${quiz.id}-q${index}`}
-                                            style={{
-                                                marginBottom: 15,
-                                                display: 'flex',
-                                                justifyContent: 'space-between',
-                                                alignItems: 'center',
-                                            }}
-                                        >
-                                            <div style={{ width: '85%' }}>
-                                                <Text
+                                    <Accordion.Panel>
+                                        {quiz.loading ? (
+                                            <Center>
+                                                <Loader color="blue" size={30} />
+                                            </Center>
+                                        ) : (
+                                            quiz.questions.map((q, index) => (
+                                                <Group
+                                                    key={`${quiz.id}-q${index}`}
                                                     style={{
-                                                        fontWeight: 600,
-                                                        fontSize: '1rem',
-                                                        color: '#333',
-                                                        marginBottom: 5,
+                                                        marginBottom: 15,
+                                                        display: 'flex',
+                                                        justifyContent: 'space-between',
+                                                        alignItems: 'center',
                                                     }}
                                                 >
-                                                    {index + 1}. {q.question}
-                                                </Text>
-                                                <Text
-                                                    style={{
-                                                        fontSize: '0.875rem',
-                                                        color: '#555',
-                                                        backgroundColor: '#f7f7f7',
-                                                        padding: '5px 10px',
-                                                        borderRadius: '4px',
-                                                    }}
-                                                >
-                                                    {q.answer}
-                                                </Text>
-                                            </div>
-                                            <ActionIcon
-                                                color="blue"
-                                                onClick={() => openEditModal(quiz.id, q.id, q.question, q.answer)}
-                                            >
-                                                <IconEdit size={16} />
-                                            </ActionIcon>
-                                        </Group>
-                                    ))
-                                )}
-                            </Accordion.Panel>
-                        </Accordion.Item>
-                    ))}
-                </Accordion>
+                                                    <div style={{ width: '85%' }}>
+                                                        <Text
+                                                            style={{
+                                                                fontWeight: 600,
+                                                                fontSize: '1rem',
+                                                                color: '#333',
+                                                                marginBottom: 5,
+                                                            }}
+                                                        >
+                                                            {index + 1}. {q.question}
+                                                        </Text>
+                                                        <Text
+                                                            style={{
+                                                                fontSize: '0.875rem',
+                                                                color: '#555',
+                                                                backgroundColor: '#f7f7f7',
+                                                                padding: '5px 10px',
+                                                                borderRadius: '4px',
+                                                            }}
+                                                        >
+                                                            {q.answer}
+                                                        </Text>
+                                                    </div>
+                                                    <ActionIcon
+                                                        color="blue"
+                                                        onClick={() => openEditModal(quiz.id, q.id, q.question, q.answer)}
+                                                    >
+                                                        <IconEdit size={16} />
+                                                    </ActionIcon>
+                                                </Group>
+                                            ))
+                                        )}
+                                    </Accordion.Panel>
+                                </Accordion.Item>
+                            ))}
+                        </Accordion>
+                    ) :
+                        <div>
+                            <Center>
+                                <Loader color="blue" />
+                            </Center>
+                        </div>
+                }
             </Paper>
 
             {/* Modal for Editing a Question and Answer */}

@@ -145,7 +145,6 @@ walker get_questions: visit_profile: {
     }
 }
 
-
 walker edit_question: visit_profile: {
     has question_id: str;
     has edited_question: str;
@@ -160,5 +159,35 @@ walker edit_question: visit_profile: {
         } else {
             report {"error": "Question not found"};
         }
+    }
+}
+
+
+# not working correctly
+# ----------------------------------------------
+walker delete_question: visit_profile: {
+    has question_id: str;
+
+    can find_question with teacher entry {
+        question_item = &self.question_id;
+        
+        if question_item is not None {
+            del question_item;
+            report {"message": "Question deleted successfully"};
+        } else {
+            report {"error": "Question not found"};
+        }
+    }
+}
+# ----------------------------------------------
+
+
+walker get_students {
+    obj __specs__ {
+        static has auth: bool = False;
+    }
+    can get_students with `root entry {
+        students = [-->(`?student)];
+        report students;
     }
 }
