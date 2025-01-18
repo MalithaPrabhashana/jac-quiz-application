@@ -16,9 +16,11 @@ const StudentDashboard = () => {
           flex: 1,
           marginLeft: '250px',
           display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
+          justifyContent: 'center', // ✅ Horizontally center
+          alignItems: 'center',     // ✅ Vertically center
           padding: '20px',
+          height: '100vh',
+          boxSizing: 'border-box',
         }}
       >
         <Container style={{ width: '100%', maxWidth: '600px', textAlign: 'center' }}>
@@ -39,7 +41,7 @@ const StudentDashboard = () => {
             <Text size="sm" color="dimmed" style={{ marginBottom: 20 }}>
               Start a new quiz to test your knowledge.
             </Text>
-            <Group align="center" justify="center">
+            <Group justify="center">
               <Button variant="outline">Start Quiz</Button>
             </Group>
           </Paper>
@@ -52,7 +54,7 @@ const StudentDashboard = () => {
             <Text size="sm" color="dimmed" style={{ marginBottom: 20 }}>
               Check your quiz performance and progress.
             </Text>
-            <Group align="center" justify="center">
+            <Group justify="center">
               <Button variant="outline">View Results</Button>
             </Group>
           </Paper>
@@ -65,7 +67,7 @@ const StudentDashboard = () => {
             <Text size="sm" color="dimmed" style={{ marginBottom: 20 }}>
               View all the courses you are enrolled in.
             </Text>
-            <Group align="center" justify="center">
+            <Group justify="center">
               <Button variant="outline">View Courses</Button>
             </Group>
           </Paper>
