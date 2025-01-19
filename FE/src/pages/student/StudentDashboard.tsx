@@ -1,7 +1,10 @@
 import { Container, Text, Button, Paper, Group } from '@mantine/core';
 import Sidebar from '../../components/Sidebar';
+import { useNavigate } from 'react-router-dom';
 
 const StudentDashboard = () => {
+  const navigate = useNavigate();
+
   return (
     <div style={{ display: 'flex', height: '100vh' }}>
       
@@ -16,11 +19,9 @@ const StudentDashboard = () => {
           flex: 1,
           marginLeft: '250px',
           display: 'flex',
-          justifyContent: 'center', // ✅ Horizontally center
-          alignItems: 'center',     // ✅ Vertically center
+          justifyContent: 'center',
+          alignItems: 'center',
           padding: '20px',
-          height: '100vh',
-          boxSizing: 'border-box',
         }}
       >
         <Container style={{ width: '100%', maxWidth: '600px', textAlign: 'center' }}>
@@ -41,8 +42,8 @@ const StudentDashboard = () => {
             <Text size="sm" color="dimmed" style={{ marginBottom: 20 }}>
               Start a new quiz to test your knowledge.
             </Text>
-            <Group justify="center">
-              <Button variant="outline">Start Quiz</Button>
+            <Group align="center" justify="center">
+              <Button variant="outline" onClick={() => navigate('/quiz')}>Start Quiz</Button>
             </Group>
           </Paper>
 
@@ -54,21 +55,34 @@ const StudentDashboard = () => {
             <Text size="sm" color="dimmed" style={{ marginBottom: 20 }}>
               Check your quiz performance and progress.
             </Text>
-            <Group justify="center">
-              <Button variant="outline">View Results</Button>
+            <Group align="center" justify="center">
+              <Button variant="outline" onClick={() => navigate('/results')}>View Results</Button>
             </Group>
           </Paper>
 
           {/* Enrolled Courses */}
-          <Paper radius="md" shadow="sm" withBorder style={{ padding: 30 }}>
+          <Paper radius="md" shadow="sm" withBorder style={{ padding: 30, marginBottom: 20 }}>
             <Text size="lg" style={{ marginBottom: 16 }}>
               Enrolled Courses
             </Text>
             <Text size="sm" color="dimmed" style={{ marginBottom: 20 }}>
               View all the courses you are enrolled in.
             </Text>
-            <Group justify="center">
-              <Button variant="outline">View Courses</Button>
+            <Group align="center" justify="center">
+              <Button variant="outline" onClick={() => navigate('/courses')}>View Courses</Button>
+            </Group>
+          </Paper>
+
+          {/* New Button: Enroll New Classes */}
+          <Paper radius="md" shadow="sm" withBorder style={{ padding: 30 }}>
+            <Text size="lg" style={{ marginBottom: 16 }}>
+              Enroll in New Classes
+            </Text>
+            <Text size="sm" color="dimmed" style={{ marginBottom: 20 }}>
+              Browse and enroll in new classes to expand your learning.
+            </Text>
+            <Group align="center" justify="center">
+              <Button variant="filled" color="green" onClick={() => navigate('/enroll')}>Enroll Now</Button>
             </Group>
           </Paper>
 
