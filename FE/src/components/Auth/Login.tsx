@@ -39,14 +39,16 @@ const Login = () => {
                 try {
                     const response_walker_login = await apiRequest<{ token: string; reports: any[] }>('walker/login_user', {
                         method: 'POST',
-                        body: loginData,
+                        body: {
+                            "email": email
+                        },
                     });
                     
-                    localStorage.setItem('token', response_user_login.token);
-                    localStorage.setItem('userId', response_walker_login.reports[0]);
+                    localStorage.setItem('role', response_walker_login.reports[0].role);
+                    localStorage.setItem('user_id', response_walker_login.reports[0].user_id);
 
                     console.log('user_id', response_walker_login.reports[0]);
-                    window.location.href = '/dashboard';
+                    window.location.href = '/teacher/dashboard';
         
                 } catch (error: any) {
                     console.error('Login failed:', error);

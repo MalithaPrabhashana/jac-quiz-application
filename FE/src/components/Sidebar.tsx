@@ -1,17 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   IconCalendarStats,
-  IconDeviceDesktopAnalytics,
-  IconFingerprint,
+  IconClipboardList,
   IconGauge,
   IconHome2,
   IconLogout,
-  IconSettings,
+  IconFileText,
   IconSwitchHorizontal,
-  IconUser,
+  IconUsers,
 } from '@tabler/icons-react';
 import { Stack, Tooltip, UnstyledButton } from '@mantine/core';
-import { useNavigate } from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
 import classes from '../../styles/NavbarMinimal.module.css';
 
 interface NavbarLinkProps {
@@ -22,9 +21,12 @@ interface NavbarLinkProps {
   onClick?: () => void;
 }
 
-function NavbarLink({ icon: Icon, label, active, onClick, to }: NavbarLinkProps) {
-  const navigate = useNavigate()
+interface SidebarProps {
+  role: string; // Role can be 'teacher' or 'student'
+}
 
+function NavbarLink({ icon: Icon, label, active, onClick, to }: NavbarLinkProps) {
+  const navigate = useNavigate();
   const handleClick = () => {
     if (onClick) onClick();
     navigate(to);
@@ -39,33 +41,43 @@ function NavbarLink({ icon: Icon, label, active, onClick, to }: NavbarLinkProps)
   );
 }
 
-const mockdata = [
-  { icon: IconHome2, label: 'Home', to: '/dashboard' },
-  { icon: IconGauge, label: 'Dashboard', to: '/StudentDashboard' },
-  { icon: IconDeviceDesktopAnalytics, label: 'Analytics', to: '/quiz' },
-  { icon: IconCalendarStats, label: 'Releases', to: '/results' },
-  { icon: IconUser, label: 'Account', to: '/courses' },
-  { icon: IconFingerprint, label: 'Security', to: '/enroll' },
-  { icon: IconSettings, label: 'Settings', to: '/settings' },
-];
+export default function Sidebar({ role }: SidebarProps) {
+  const location = useLocation();
+  const [active, setActive] = useState(0);
 
-export default function Sidebar() {
-  const [active, setActive] = useState(2);
+  // Define links for each role
+  const teacherLinks = [
+    { icon: IconGauge, label: 'Dashboard', to: '/teacher/dashboard' },
+    { icon: IconClipboardList, label: 'All Quizzes', to: '/teacher/view-all-quizzes' },
+    { icon: IconFileText, label: 'Create Quiz', to: '/teacher/create-quiz' },
+    { icon: IconUsers, label: 'All Students', to: '/teacher/all-students' },
+  ];
 
-  const links = mockdata.map((link, index) => (
-    <NavbarLink
-      {...link}
-      key={link.label}
-      active={index === active}
-      onClick={() => setActive(index)} // Change active tab on click
-    />
-  ));
+  const studentLinks = [
+    { icon: IconGauge, label: 'Dashboard', to: '/student/dashboard' },
+    { icon: IconCalendarStats, label: 'View Quizzes', to: '/student/quizzes' },
+  ];
+
+  // Determine links based on the role
+  const links = role === 'teacher' ? teacherLinks : studentLinks;
+
+  // Update active link based on current path
+  useEffect(() => {
+    const activeLink = links.findIndex((link) => link.to === location.pathname);
+    setActive(activeLink >= 0 ? activeLink : 0);  // Default to first link if no match
+  }, [location, links]);
 
   return (
     <nav className={classes.navbar}>
       <div className={classes.navbarMain}>
         <Stack justify="center" gap={0}>
-          {links}
+          {links.map((link, index) => (
+            <NavbarLink
+              {...link}
+              key={link.label}
+              active={index === active}
+            />
+          ))}
         </Stack>
       </div>
 

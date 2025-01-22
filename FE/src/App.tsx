@@ -8,7 +8,11 @@ import Signup from './components/Auth/Signup';
 
 // Dashboard Pages
 import Dashboard from './pages/Dashboard';
-import StudentDashboard from './pages/student/StudentDashboard';
+import CreateQuiz from './pages/teacher/CreateQuiz';
+import TeacherDashboard from './pages/teacher/TeachersDashboard';
+import ViewAllQuizzes from './pages/teacher/ViewAllQuestions';
+import ViewAllStudents from './pages/teacher/ViewAllStudents';
+// import './App.css';
 
 // New Pages
 import QuizPage from './pages/student/QuizPage';
@@ -27,16 +31,13 @@ const App = () => {
           {/* Authentication Routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-
-          {/* Dashboard Routes */}
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/StudentDashboard" element={<StudentDashboard />} />
-
-          {/* New Feature Routes */}
-          <Route path="/quiz" element={<QuizPage />} />
-          <Route path="/results" element={<ResultsPage />} />
-          <Route path="/courses" element={<CoursesPage />} />
-          <Route path="/enroll" element={<EnrollPage />} />
+          
+          <Route path="/teacher" element={<Dashboard />}>
+            <Route path="dashboard" element={<TeacherDashboard />} />
+            <Route path="create-quiz" element={<CreateQuiz />} />
+            <Route path="view-all-quizzes" element={<ViewAllQuizzes />} />
+            <Route path="all-students" element={<ViewAllStudents />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </MantineProvider>

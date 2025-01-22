@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Container, Loader, Text } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import Sidebar from '../components/Sidebar';
-import TeacherDashboard from './teacher/TeachersDashboard';
-import StudentDashboard from './student/StudentDashboard.tsx';
+import { Outlet } from 'react-router';
 
 const Dashboard = () => {
     const [role, setRole] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
+    const isMobile = useMediaQuery('(max-width: 768px)');  // Media query for small screens (mobile)
 
     useEffect(() => {
         const fetchUserRole = async () => {
@@ -14,7 +15,6 @@ const Dashboard = () => {
             try {
                 const userRole = localStorage.getItem('role');
                 setRole(userRole || 'teacher');
-                
             } catch (error) {
                 console.error('Error fetching role:', error);
             } finally {
@@ -59,42 +59,22 @@ const Dashboard = () => {
     }
 
     return (
-        <div
-            style={{
-                display: 'flex',
-                height: '100vh',
-            }}
-        >
-
+        <div style={{ display: 'flex', height: '100vh' }}>
             {/* Sidebar */}
-            <div
-                style={{
-                    width: '250px',
-                    height: '100vh',
-                    position: 'fixed',
-                    top: 0,
-                    left: 0,
-                    zIndex: 10,
-                }}
-            >
-                <Sidebar />
+            <div style={{ height: '100vh', position: 'fixed', top: 0, left: 0, zIndex: 10 }}>
+                <Sidebar role={role} />
             </div>
-
 
             {/* Main Content */}
             <div
                 style={{
                     flex: 1,
-                    marginLeft: '100px',
+                    marginLeft: isMobile ? '80px' : '0',  // Apply 0px margin for small screens, 80px for larger
                     padding: '20px',
                     overflowY: 'auto',
                 }}
             >
-                <Text size="xl" style={{ fontWeight: 700, marginBottom: 20 }}>
-                    Welcome to your {role === 'teacher' ? 'Teacher' : 'Student'} Dashboard
-                </Text>
-
-                {role === 'teacher' ? <TeacherDashboard /> : <StudentDashboard />}
+                <Outlet />
             </div>
         </div>
     );
