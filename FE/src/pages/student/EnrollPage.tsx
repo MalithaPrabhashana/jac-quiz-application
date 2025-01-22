@@ -9,7 +9,7 @@ import {
   Stack,
   Divider,
 } from '@mantine/core';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 const EnrollPage = () => {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ const EnrollPage = () => {
 
   return (
     <Container size="lg" py="xl">
-      <Text size="xl" weight={700} align="center" color="blue" mb="lg">
+      <Text size="xl" color="blue">
         📘 Enroll in New Classes
       </Text>
 
@@ -35,20 +35,19 @@ const EnrollPage = () => {
               radius="md"
               withBorder
               style={{
-                position: 'relative',
                 overflow: 'hidden',
                 transition: 'transform 0.2s, box-shadow 0.2s',
-                ':hover': {
-                  transform: 'scale(1.02)',
-                  boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.1)',
-                },
               }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.transform = 'scale(1.02)')
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.transform = 'scale(1)')
+              }
             >
-              <Stack spacing="sm">
-                <Group position="apart">
-                  <Text size="lg" weight={700}>
-                    {cls.title}
-                  </Text>
+              <Stack>
+                <Group>
+                  <Text size="lg">{cls.title}</Text>
                   <Avatar color="blue" radius="xl" size={36}>
                     {cls.instructor[0]}
                   </Avatar>
@@ -58,7 +57,10 @@ const EnrollPage = () => {
                   Instructor: {cls.instructor}
                 </Text>
 
-                <Text size="sm" weight={500} color={cls.seats > 0 ? 'green' : 'red'}>
+                <Text
+                  size="sm"
+                  color={cls.seats > 0 ? 'green' : 'red'}
+                >
                   Seats Available: {cls.seats > 0 ? cls.seats : 'Full'}
                 </Text>
               </Stack>
@@ -82,7 +84,13 @@ const EnrollPage = () => {
         ))}
       </Grid>
 
-      <Button variant="outline" size="lg" mt="xl" onClick={() => navigate('/StudentDashboard')} style={{ display: 'block', margin: '0 auto' }}>
+      <Button
+        variant="outline"
+        size="lg"
+        mt="xl"
+        onClick={() => navigate('/StudentDashboard')}
+        style={{ display: 'block', margin: '0 auto' }}
+      >
         Back to Dashboard
       </Button>
     </Container>

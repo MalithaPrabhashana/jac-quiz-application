@@ -11,7 +11,7 @@ import {
   Badge,
   Button,
 } from '@mantine/core';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 const ResultsPage = () => {
   const navigate = useNavigate();
@@ -25,51 +25,93 @@ const ResultsPage = () => {
   return (
     <Container size="lg" py="xl">
       {/* Page Title */}
-      <Title order={2} align="center" mb="lg" color="blue">
-        📊 Performance Overview
-      </Title>
+      <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+        <Title order={2} style={{ color: '#1c7ed6' }}>
+          📊 Performance Overview
+        </Title>
+      </div>
 
       {/* Statistics Section */}
-      <Grid gutter="lg" mb="xl">
-        <Grid.Col span={{ base: 12, md: 4 }}>
+      <Grid gutter="lg" style={{ marginBottom: '2rem' }}>
+        <Grid.Col span={12}>
           <Card shadow="lg" padding="xl" radius="md" withBorder>
-            <Group position="apart">
-              <Text size="sm" color="dimmed">Average Score</Text>
-              <Badge color="green" variant="light">Consistent</Badge>
-            </Group>
-            <Text size="xl" weight={600} mt="xs">88%</Text>
-            <Progress value={88} color="green" size="lg" mt="sm" />
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              <Text style={{ fontSize: '0.875rem', color: '#868e96' }}>
+                Average Score
+              </Text>
+              <Badge color="green" variant="light">
+                Consistent
+              </Badge>
+            </div>
+            <Text style={{ fontSize: '1.25rem', fontWeight: 600, marginTop: '0.5rem' }}>
+              88%
+            </Text>
+            <Progress value={88} color="green" size="lg" style={{ marginTop: '0.75rem' }} />
           </Card>
         </Grid.Col>
 
-        <Grid.Col span={{ base: 12, md: 4 }}>
+        <Grid.Col span={12}>
           <Card shadow="lg" padding="xl" radius="md" withBorder>
-            <Group position="apart">
-              <Text size="sm" color="dimmed">Total Quizzes Attempted</Text>
-              <Badge color="blue" variant="light">Steady Progress</Badge>
-            </Group>
-            <Text size="xl" weight={600} mt="xs">25</Text>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              <Text style={{ fontSize: '0.875rem', color: '#868e96' }}>
+                Total Quizzes Attempted
+              </Text>
+              <Badge color="blue" variant="light">
+                Steady Progress
+              </Badge>
+            </div>
+            <Text style={{ fontSize: '1.25rem', fontWeight: 600, marginTop: '0.5rem' }}>
+              25
+            </Text>
           </Card>
         </Grid.Col>
 
-        <Grid.Col span={{ base: 12, md: 4 }}>
+        <Grid.Col span={12}>
           <Card shadow="lg" padding="xl" radius="md" withBorder>
-            <Group position="apart">
-              <Text size="sm" color="dimmed">Best Score</Text>
-              <Badge color="gold" variant="light">Top Quiz</Badge>
-            </Group>
-            <Text size="xl" weight={600} mt="xs">98%</Text>
-            <Badge color="blue" variant="light" mt="sm">Physics Concepts</Badge>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              <Text style={{ fontSize: '0.875rem', color: '#868e96' }}>
+                Best Score
+              </Text>
+              <Badge color="gold" variant="light">
+                Top Quiz
+              </Badge>
+            </div>
+            <Text style={{ fontSize: '1.25rem', fontWeight: 600, marginTop: '0.5rem' }}>
+              98%
+            </Text>
+            <Badge color="blue" variant="light" style={{ marginTop: '0.75rem' }}>
+              Physics Concepts
+            </Badge>
           </Card>
         </Grid.Col>
       </Grid>
 
       {/* Recent Results Section */}
-      <Paper shadow="md" radius="md" withBorder p="lg">
-        <Title order={4} mb="lg" color="blue">
-          📅 Recent Quiz Results
-        </Title>
-        <Table highlightOnHover striped withBorder withColumnBorders>
+      <Paper shadow="md" radius="md" withBorder>
+        <div style={{ marginBottom: '1.5rem' }}>
+          <Title order={4} style={{ color: '#1c7ed6' }}>
+            📅 Recent Quiz Results
+          </Title>
+        </div>
+        <Table highlightOnHover striped withColumnBorders>
           <thead>
             <tr>
               <th>Quiz Title</th>
@@ -84,15 +126,20 @@ const ResultsPage = () => {
                 <td>{result.quiz}</td>
                 <td>
                   <Text
-                    weight={600}
-                    color={result.score >= 80 ? 'green' : 'red'}
+                    style={{
+                      fontWeight: 600,
+                      color: result.score >= 80 ? '#38a169' : '#e53e3e',
+                    }}
                   >
                     {result.score}%
                   </Text>
                 </td>
                 <td>{result.date}</td>
                 <td>
-                  <Badge color={result.score >= 80 ? 'green' : 'red'} variant="light">
+                  <Badge
+                    color={result.score >= 80 ? 'green' : 'red'}
+                    variant="light"
+                  >
                     {result.score >= 80 ? 'Passed' : 'Needs Improvement'}
                   </Badge>
                 </td>
@@ -106,9 +153,11 @@ const ResultsPage = () => {
       <Button
         variant="outline"
         size="lg"
-        mt="xl"
+        style={{
+          display: 'block',
+          margin: '2rem auto 0',
+        }}
         onClick={() => navigate('/StudentDashboard')}
-        style={{ display: 'block', margin: '0 auto' }}
       >
         Back to Dashboard
       </Button>

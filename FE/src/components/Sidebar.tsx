@@ -41,11 +41,11 @@ function NavbarLink({ icon: Icon, label, active, onClick, to }: NavbarLinkProps)
 
 const mockdata = [
   { icon: IconHome2, label: 'Home', to: '/dashboard' },
-  { icon: IconGauge, label: 'Dashboard', to: '/dashboard' },
-  { icon: IconDeviceDesktopAnalytics, label: 'Analytics', to: '/analytics' },
-  { icon: IconCalendarStats, label: 'Releases', to: '/releases' },
-  { icon: IconUser, label: 'Account', to: '/account' },
-  { icon: IconFingerprint, label: 'Security', to: '/security' },
+  { icon: IconGauge, label: 'Dashboard', to: '/StudentDashboard' },
+  { icon: IconDeviceDesktopAnalytics, label: 'Analytics', to: '/quiz' },
+  { icon: IconCalendarStats, label: 'Releases', to: '/results' },
+  { icon: IconUser, label: 'Account', to: '/courses' },
+  { icon: IconFingerprint, label: 'Security', to: '/enroll' },
   { icon: IconSettings, label: 'Settings', to: '/settings' },
 ];
 

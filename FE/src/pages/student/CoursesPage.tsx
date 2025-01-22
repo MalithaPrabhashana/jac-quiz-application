@@ -11,7 +11,7 @@ import {
   Rating,
   Stack,
 } from '@mantine/core';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 const CoursesPage = () => {
   const navigate = useNavigate();

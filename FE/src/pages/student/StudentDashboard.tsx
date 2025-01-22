@@ -1,6 +1,6 @@
 import { Container, Text, Button, Paper, Group } from '@mantine/core';
 import Sidebar from '../../components/Sidebar';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 const StudentDashboard = () => {
   const navigate = useNavigate();

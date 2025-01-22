@@ -11,7 +11,7 @@ import {
 } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 const QuizPage = () => {
   const [search, setSearch] = useState('');
@@ -58,70 +58,125 @@ const QuizPage = () => {
   return (
     <Container size="xl" py="xl">
       {/* Header Section */}
-      <Flex justify="space-between" align="center" mb="xl">
-        <Text size="2xl" weight={700} color="blue">
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: '1.5rem',
+        }}
+      >
+        <Text
+          style={{
+            fontSize: '1.5rem',
+            fontWeight: 700,
+            color: '#1c7ed6',
+          }}
+        >
           📚 Explore Quizzes
         </Text>
-        <TextInput
-          icon={<IconSearch size={18} />}
-          placeholder="Search quizzes..."
-          value={search}
-          onChange={(e) => setSearch(e.currentTarget.value)}
-          w={350}
-        />
-      </Flex>
+        <div style={{ position: 'relative', width: '350px' }}>
+          <IconSearch
+            size={18}
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '8px',
+              transform: 'translateY(-50%)',
+              color: '#868e96',
+            }}
+          />
+          <TextInput
+            placeholder="Search quizzes..."
+            value={search}
+            onChange={(e) => setSearch(e.currentTarget.value)}
+            style={{
+              paddingLeft: '36px',
+              width: '100%',
+              height: '36px',
+              border: '1px solid #ced4da',
+              borderRadius: '4px',
+            }}
+          />
+        </div>
+      </div>
 
       {/* Quizzes Grid */}
-      <Grid gutter="lg">
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: '1.5rem',
+        }}
+      >
         {filteredQuizzes.length > 0 ? (
           filteredQuizzes.map((quiz) => (
-            <Grid.Col span={{ base: 12, md: 6, lg: 4 }} key={quiz.id}>
-              <Card
-                shadow="lg"
-                padding="xl"
-                radius="md"
-                withBorder
+            <Card
+              key={quiz.id}
+              shadow="lg"
+              padding="xl"
+              radius="md"
+              withBorder
+              style={{
+                transition: 'transform 0.2s, box-shadow 0.2s',
+                cursor: 'pointer',
+              }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.transform = 'scale(1.02)')
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.transform = 'scale(1)')
+              }
+            >
+              <div
                 style={{
-                  transition: 'transform 0.2s, box-shadow 0.2s',
-                  ':hover': {
-                    transform: 'scale(1.02)',
-                    boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.1)',
-                  },
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
                 }}
               >
-                <Group position="apart">
-                  <Text weight={600} size="lg">
-                    {quiz.title}
-                  </Text>
-                  <Badge
-                    color={getDifficultyColor(quiz.difficulty)}
-                    variant="filled"
-                  >
-                    {quiz.difficulty}
-                  </Badge>
-                </Group>
-                <Text size="sm" color="dimmed" mt="sm">
-                  {quiz.description}
+                <Text style={{ fontWeight: 600, fontSize: '1.25rem' }}>
+                  {quiz.title}
                 </Text>
-                <Button
-                  fullWidth
-                  mt="md"
-                  variant="gradient"
-                  gradient={{ from: 'teal', to: 'blue' }}
+                <Badge
+                  color={getDifficultyColor(quiz.difficulty)}
+                  variant="filled"
                 >
-                  Start Quiz
-                </Button>
-              </Card>
-            </Grid.Col>
+                  {quiz.difficulty}
+                </Badge>
+              </div>
+              <Text
+                style={{
+                  marginTop: '0.5rem',
+                  fontSize: '0.875rem',
+                  color: '#868e96',
+                }}
+              >
+                {quiz.description}
+              </Text>
+              <Button
+                fullWidth
+                mt="md"
+                variant="gradient"
+                gradient={{ from: 'teal', to: 'blue' }}
+              >
+                Start Quiz
+              </Button>
+            </Card>
           ))
         ) : (
-          <Grid.Col span={12}>
-            <Text size="lg" align="center" color="dimmed">
+          <div style={{ gridColumn: '1 / -1', textAlign: 'center' }}>
+            <Text
+              style={{
+                fontSize: '1rem',
+                color: '#868e96',
+              }}
+            >
               No quizzes found. Try adjusting your search!
             </Text>
-          </Grid.Col>
+          </div>
         )}
-      </Grid>
+      </div>
 
       {/* Back to Dashboard Button */}
       <Button
@@ -129,7 +184,10 @@ const QuizPage = () => {
         size="lg"
         mt="xl"
         onClick={() => navigate('/StudentDashboard')}
-        style={{ display: 'block', margin: '0 auto' }}
+        style={{
+          display: 'block',
+          margin: '2rem auto 0',
+        }}
       >
         Back to Dashboard
       </Button>
