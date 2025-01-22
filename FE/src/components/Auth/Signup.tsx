@@ -23,38 +23,72 @@ const Signup = () => {
     const password = e.target[1].value;
     const role = e.target[3].value.toLowerCase();
 
-    const signupData = {
-      username: email,
-      password: password,
-      role: role,
-    };
-
-    console.log(signupData);
-
     try {
-      const response_signup_walker = await apiRequest<{ status: number; reports: any[] }>('walker/sign_up_user', {
+      const response_signup_walker = await apiRequest('walker/sign_up_user', {
         method: 'POST',
         body: {
-          email: signupData.username,
-          role: signupData.role,
+          "email": email ? email : "",
+          "role": role ? role : "",
         },
-      });
+      }) as { status: any; reports: any[] };
 
-      console.log('Sign up response:', response_signup_walker.reports[0].username);
-      const response_msg = response_signup_walker.reports[0].username;
+      console.log('Sign up response:', response_signup_walker.reports[0].message);
+      const response_msg = response_signup_walker.reports[0].message;
 
       if (response_msg !== "User already exists") {
 
         try {
-          const response_signup_user = await apiRequest<{ token: string }>('user/register', {
+          const response_signup_user = await apiRequest('user/register', {
             method: 'POST',
             body: {
-              email: signupData.username,
-              password: signupData.password
+              "email": email ? email : "",
+              "password": password ? password : "",
             },
-          });
+          }) as { status: number; reports: any[] };
 
           console.log('Login successful:', response_signup_user);
+
+          try {
+            const response_user_login = await apiRequest<{ token: string }>('user/login', {
+              method: 'POST',
+              body: {
+                "email": email,
+                "password": password,
+              },
+            });
+
+            console.log('Login successful:', response_user_login.token);
+
+            if (response_user_login.token) {
+              try {
+                const response_walker_login = await apiRequest<{ token: string; reports: any[] }>('walker/login_user', {
+                  method: 'POST',
+                  body: {
+                    "email": email
+                  },
+                });
+
+                localStorage.setItem('role', response_walker_login.reports[0].role);
+                localStorage.setItem('user_id', response_walker_login.reports[0].user_id);
+
+                console.log('user_id', response_walker_login.reports[0]);
+                if (response_walker_login.reports[0].role === 'teacher') {
+                  window.location.href = '/teacher/dashboard';
+                }
+                else if (response_walker_login.reports[0].role === 'student') {
+                  window.location.href = '/student/dashboard';
+                }
+
+              } catch (error: any) {
+                console.error('Login failed:', error);
+                setError(error.message || 'Something went wrong');
+              }
+            }
+
+          } catch (error: any) {
+            console.error('Login failed:', error);
+            setError(error.message || 'Something went wrong');
+          }
 
         } catch (error: any) {
           console.error('Login failed:', error);

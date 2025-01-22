@@ -2,15 +2,6 @@ import:py from jac_cloud.core.architype { NodeAnchor }
 import:py from dotenv {load_dotenv}
 import os;
 
-with entry {
-    load_dotenv();
-
-    database_host = os.getenv("DATABASE_HOST");
-    database_name = os.getenv("DATABASE_NAME");
-
-}
-
-
 """Nodes for the quiz app"""
 
 node teacher {
@@ -50,12 +41,17 @@ walker sign_up_user {
     }
     can sign_up_user with `root entry {
 
-        users = NodeAnchor.Collection.find({"name": "user"});
+        if self.role == "teacher" {
+            self.users = NodeAnchor.Collection.find({"name": "teacher"});
+        } elif self.role == "student" {
+            self.users = NodeAnchor.Collection.find({"name": "student"});
+        }
 
-        for user in users {
+        for user in self.users {
             user_node = user.architype;
+
             if (user_node.email == self.email) {
-                report {"username": "User already exists"};
+                report {"message": "User already exists"};
                 return;
             }
         }
@@ -69,8 +65,8 @@ walker sign_up_user {
                 email=self.email,
             );
         }
-        
         visit new_user;
+        report {"message": "User created successfully"};
     }
 }
 
@@ -101,7 +97,7 @@ walker login_user {
 
     can show_message_student with student entry {
         report {
-            "role": "teacher",
+            "role": "student",
             "user_id": jid(here)
         };
     }
@@ -145,4 +141,33 @@ walker get_all_quizzes: visit_profile: {
     can get_all_questions with teacher entry {
         report [-:add_question:->(`?quiz)];
     }
+}
+
+
+walker get_all_students {
+    obj __specs__ {
+        static has auth: bool = False;
+    }
+
+    can get_all_students with `root entry {
+        report [-->(`?student)];
+    }
+}
+
+can config_server() {
+    import:py from jac_cloud { FastAPI }
+    import:py from fastapi.middleware.cors { CORSMiddleware }
+    FastAPI.get().add_middleware(
+        CORSMiddleware,
+        allow_origins=["http://localhost:5173"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"]
+    );
+    FastAPI.enable();
+}
+
+with entry {
+    load_dotenv();
+
+    database_host = os.getenv("DATABASE_HOST");
+    database_name = os.getenv("DATABASE_NAME");
+    config_server();
 }

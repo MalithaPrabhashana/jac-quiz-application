@@ -3,11 +3,8 @@ import {
   Text,
   Card,
   Button,
-  Grid,
   Badge,
   TextInput,
-  Group,
-  Flex,
 } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
 import { useState } from 'react';

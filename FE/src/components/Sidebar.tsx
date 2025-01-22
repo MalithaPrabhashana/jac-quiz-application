@@ -55,7 +55,10 @@ export default function Sidebar({ role }: SidebarProps) {
 
   const studentLinks = [
     { icon: IconGauge, label: 'Dashboard', to: '/student/dashboard' },
-    { icon: IconCalendarStats, label: 'View Quizzes', to: '/student/quizzes' },
+    { icon: IconCalendarStats, label: 'View Quizzes', to: '/student/quiz' },
+    { icon: IconCalendarStats, label: 'View Quizzes', to: '/student/results' },
+    { icon: IconCalendarStats, label: 'View Quizzes', to: '/student/courses' },
+    { icon: IconCalendarStats, label: 'View Quizzes', to: '/student/entroll' },
   ];
 
   // Determine links based on the role

@@ -53,7 +53,7 @@ const CreateQuiz = () => {
         body: quizData,
       });
 
-      console.log(response);
+      window.location.href = `/teacher/view-all-quizzes`;
 
     } catch (error: any) {
       console.error("Error saving quiz:", error);

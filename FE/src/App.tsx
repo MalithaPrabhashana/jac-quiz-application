@@ -19,6 +19,7 @@ import QuizPage from './pages/student/QuizPage';
 import ResultsPage from './pages/student/ResultsPage';
 import CoursesPage from './pages/student/CoursesPage';
 import EnrollPage from './pages/student/EnrollPage';
+import StudentDashboard from './pages/student/StudentDashboard';
 
 const App = () => {
   return (
@@ -38,7 +39,17 @@ const App = () => {
             <Route path="view-all-quizzes" element={<ViewAllQuizzes />} />
             <Route path="all-students" element={<ViewAllStudents />} />
           </Route>
+
+          <Route path="/student" element={<Dashboard />}>
+            <Route path="dashboard" element={<StudentDashboard />} />
+            <Route path="quiz" element={<QuizPage />} />
+            <Route path="results" element={<ResultsPage />} />
+            <Route path="courses" element={<CoursesPage />} />
+            <Route path="enroll" element={<EnrollPage />} />
+          </Route>
+
         </Routes>
+        
       </BrowserRouter>
     </MantineProvider>
   );
